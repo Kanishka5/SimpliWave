@@ -1,0 +1,38 @@
+.contact {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+    width: 70%;
+    margin-left: 15%;
+    height: 50vh;
+    text-align: center;
+    background-color: #eaeaea61;
+}
+
+.each_contact {
+    /* border-radius: 6px; */
+    height: 25vh;
+    padding: 5vh 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    text-align: center;
+    background-color: #a9a9a9a6;
+}
+
+@media only screen and (max-width: 600px) {
+    .contact {
+        padding: 10px 4%;
+        margin-left: 11%;
+        height: auto;
+    }
+    .each_contact{
+        height: auto;
+        width: 60vw;
+    }
+}
+

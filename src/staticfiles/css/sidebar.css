@@ -1,0 +1,12 @@
+.sidebar {
+    width: 12vw;
+    background-color: #60609c;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    box-shadow: -1px 5px 9px 1px #3e419c59;
+}
+
+.sidebar h1 {
+    margin: 0;
+}
