@@ -5,7 +5,7 @@ import Infocard from "./component/infocard";
 import Graph from "./component/graph";
 import Project from "./component/projects";
 
-const Dashboard = () => {
+const ClientDashboard = () => {
   return (
     <div>
       <Navbar />
@@ -17,4 +17,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ClientDashboard;

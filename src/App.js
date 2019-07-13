@@ -5,14 +5,16 @@ import About from "./component/about";
 import Services from "./component/services";
 import Contact from "./component/contact";
 import Footer from "./component/footer";
+import Landing2 from "./component/landing2";
+import Services2 from "./component/services2";
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
       <Navbar />
-      <Landing />
+      <Landing2 />
       <About />
-      <Services />
+      <Services2 />
       <Contact />
       <Footer />
     </div>

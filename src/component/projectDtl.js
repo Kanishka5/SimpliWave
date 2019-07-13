@@ -16,7 +16,7 @@ const Projects = props => {
     >
       <Link
         to={{
-          pathname: "projectdetail",
+          pathname: "projectdetails",
           state: {
             project: { props }
           }

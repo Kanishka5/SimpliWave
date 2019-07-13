@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import Dashboard from "./dashboard";
+import ClientDashboard from "./client_dashboard";
+import StdDashboard from "./student_dashboard";
 import ClientForm from "./Client_form";
 import ClientIntern from "./component/clientIntern";
 import ProjectInfo from "./projectInfo";
@@ -13,7 +14,8 @@ const Path = () => {
     <Router>
       <Switch>
         <Route exact path='/' component={App} />
-        <Route path='/dashboard' component={Dashboard} />
+        <Route path='/cltdashboard' component={ClientDashboard} />
+        <Route path='/stdDashboard' component={StdDashboard} />
         <Route path='/projectform' component={ClientForm} />
         <Route path='/internform' component={ClientIntern} />
         {/* <Route path='/:handle' component={ProjectInfo} /> */}

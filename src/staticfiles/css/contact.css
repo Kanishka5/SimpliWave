@@ -1,18 +1,4 @@
-.contact {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    border-radius: 10px 10px 0 0;
-    padding: 10px;
-    width: 70%;
-    margin-left: 15%;
-    height: 50vh;
-    text-align: center;
-    background-color: #eaeaea61;
-}
-
 .each_contact {
-    /* border-radius: 6px; */
     height: 25vh;
     padding: 5vh 1vw;
     display: flex;
@@ -21,7 +7,19 @@
     justify-content: center;
     transition: 0.3s;
     text-align: center;
-    background-color: #a9a9a9a6;
+    background-color: #553c8b;
+}
+
+.each_contact p {
+    color: #ffffff
+}
+
+.middle {
+    border: solid;
+    border-width: thin;
+    border-color: white;
+    border-top: 0;
+    border-bottom: 0;
 }
 
 @media only screen and (max-width: 600px) {

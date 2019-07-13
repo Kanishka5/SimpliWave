@@ -11,6 +11,11 @@
         internship:
             /internform
 
+### Project details
+
+    Route:
+        /projectdetails
+
 
 ### Run the project
     

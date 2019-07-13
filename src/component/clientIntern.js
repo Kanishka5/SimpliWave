@@ -131,6 +131,11 @@ const ClientIntern = () => {
             }}
             margin='normal'
             variant='outlined'
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>Rs.</InputAdornment>
+              )
+            }}
           />
           <TextField
             id='outlined-select-currency'
@@ -143,11 +148,6 @@ const ClientIntern = () => {
               MenuProps: {
                 className: classes.stipendType
               }
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>Rs.</InputAdornment>
-              )
             }}
             helperText='Please select the stipend type of project'
             margin='normal'
@@ -204,20 +204,6 @@ const ClientIntern = () => {
             label='Numner of People'
             value={values.people}
             onChange={handleChange("people")}
-            type='number'
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true
-            }}
-            margin='normal'
-            variant='outlined'
-          />
-
-          <TextField
-            id='outlined-duration'
-            label='Duration'
-            value={values.duration}
-            onChange={handleChange("duration")}
             type='number'
             className={classes.textField}
             InputLabelProps={{

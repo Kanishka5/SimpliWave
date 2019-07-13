@@ -31,8 +31,24 @@ const data = {
 
 const Graph = () => {
   return (
-    <div style={{ marginTop: "10vh" }}>
-      <h1 style={{ paddingLeft: "15vw", marginBottom: "5vh" }}>
+    <div
+      style={{
+        marginTop: "10vh",
+        width: "72vw",
+        height: "57vh",
+        marginLeft: "15vw",
+        borderRadius: 7,
+        background: "#3e419c"
+      }}
+    >
+      <h1
+        style={{
+          paddingLeft: 10,
+          marginBottom: "5vh",
+          position: "absolute",
+          bottom: 25
+        }}
+      >
         Ongoing projects
       </h1>
       <Fade>
@@ -40,7 +56,9 @@ const Graph = () => {
           style={{
             height: "50vh",
             width: "70vw",
-            marginLeft: "15vw",
+            marginLeft: "1vw",
+            position: "absolute",
+            top: "36vh",
             backgroundColor: "rgb(246, 246, 249)",
             boxShadow: "-1px 5px 9px 1px #3e419c59"
           }}
