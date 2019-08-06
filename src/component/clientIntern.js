@@ -4,9 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import axios from "axios";
 
 const style = {
   box: {
@@ -57,20 +56,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const domains = [
-  {
-    value: "Web develpoment",
-    label: "WD"
-  }
-];
-
 const stipendType = [
   {
-    value: "Weekly",
+    value: 1,
     label: "Weekly"
   },
   {
-    value: "Monthly",
+    value: 2,
     label: "Monthly"
   }
 ];
@@ -79,6 +71,7 @@ const ClientIntern = () => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     name: "",
+    domain: "",
     duration: "",
     stipend: "",
     About: "",
@@ -89,6 +82,25 @@ const ClientIntern = () => {
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleSubmit = event => {
+    console.log("Name: " + values.name);
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/client/internship/",
+      data: {
+        name: values.name,
+        domain: values.domain,
+        duration: values.duration,
+        stipend: values.stipend,
+        About: values.About,
+        SkillsRqd: values.SkillsRqd,
+        resp: values.resp,
+        people: values.people
+      }
+    });
+    event.preventDefault();
   };
 
   return (
@@ -103,6 +115,15 @@ const ClientIntern = () => {
             className={classes.textField}
             value={values.name}
             onChange={handleChange("name")}
+            margin='normal'
+            variant='outlined'
+          />
+          <TextField
+            id='outlined-name'
+            label='Domain'
+            className={classes.textField}
+            value={values.name}
+            onChange={handleChange("domain")}
             margin='normal'
             variant='outlined'
           />
@@ -217,6 +238,7 @@ const ClientIntern = () => {
             variant='contained'
             color='secondary'
             className={classes.button}
+            onClick={handleSubmit}
           >
             Submit
           </Button>

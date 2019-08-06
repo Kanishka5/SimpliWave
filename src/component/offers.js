@@ -1,5 +1,6 @@
-import React from "react";
+import React, { Component } from "react";
 import EchOffers from "./echoffers";
+import Axios from "axios";
 
 const styles = {
   wrapper: {
@@ -22,16 +23,26 @@ const styles = {
   }
 };
 
-const Offers = () => {
-  return (
-    <div style={styles.wrapper}>
-      <h1 style={styles.header}>Recieved offers</h1>
-      <EchOffers name='the simpliwave project' />
-      <EchOffers name='the simpliwave project' />
-      <EchOffers name='the simpliwave project' />
-      <EchOffers name='the simpliwave project' />
-    </div>
-  );
-};
+class Offers extends Component {
+  componentDidMount() {
+    const user = JSON.parse(localStorage.getItem("userinfo"));
+    Axios.get(
+      `http://localhost:8000/student/project-apply/?sdtid=${user.id}`
+    ).then(response => {
+      console.log(response.data);
+      this.setState({
+        applied: response.data.length
+      });
+    });
+  }
+  render() {
+    return (
+      <div style={styles.wrapper}>
+        <h1 style={styles.header}>Recieved offers</h1>
+        <EchOffers name='WD1' duration='5' amount='5000' />
+      </div>
+    );
+  }
+}
 
 export default Offers;

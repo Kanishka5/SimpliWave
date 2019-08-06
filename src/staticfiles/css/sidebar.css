@@ -7,6 +7,15 @@
     box-shadow: -1px 5px 9px 1px #3e419c59;
 }
 
+.prjct{
+    height: 11vh;
+    transition: height 0.3s linear ;
+}
+
+.nav-open{
+    height: 20vh;  
+}
+
 .sidebar h1 {
     margin: 0;
 }

@@ -8,20 +8,49 @@ class Project extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clientprojects: ""
+      clientprojects: "",
+      project_: new Array()
     };
   }
+
   componentDidMount() {
-    axios.get(`http://localhost:8000/client/project`).then(json => {
-      const projects = json.data;
-      projects.map(project => {
-        if (project.name == "name") {
-          console.log(project);
-        }
+    const token = localStorage.getItem("jwttoken");
+    const user = JSON.parse(localStorage.getItem("userinfo"));
+    axios({
+      method: "get",
+      url: `http://localhost:8000/client/project/?username=${user.email}`,
+      headers: {
+        Authorization: `token ${token}`
+      }
+    })
+      .then(json => {
+        const projects = json.data;
+        console.log(json);
+        projects.map(project => {
+          this.setState({
+            project_: [...this.state.project_, project.name]
+          });
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
-    });
   }
+
   render() {
+    console.log(this.state.project_);
+    let children = [];
+    let len = this.state.project_.length;
+    for (let i = 0; i < len; i++) {
+      children.push(
+        <Projects
+          project={this.state.project_[i]}
+          name='student'
+          deadline='10days'
+        />
+      );
+    }
+
     return (
       <div
         style={{ marginLeft: "15vw", marginTop: "10vh", marginBottom: "10vh" }}
@@ -56,11 +85,7 @@ class Project extends Component {
                 <h1>Employee</h1>
                 <h1>Deadline</h1>
               </div>
-              <Projects project='project1' name='student' deadline='10days' />
-              <Projects project='project2' name='student2' deadline='5days' />
-              <Projects project='project3' name='student3' deadline='10days' />
-              <Projects project='project4' name='student4' deadline='12days' />
-              <Projects project='project5' name='student5' deadline='17days' />
+              {children}
             </div>
             <PieChart />
           </div>

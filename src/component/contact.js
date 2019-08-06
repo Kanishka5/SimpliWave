@@ -89,17 +89,17 @@ const Contact = () => {
       </Fade>
       <Grid container spacing={1} style={styles.icons}>
         <Grid item lg={4}>
-          <a>
+          <a href='facebook.com'>
             <FontAwesomeIcon icon={faFacebookSquare} style={{ fontSize: 30 }} />
           </a>
         </Grid>
         <Grid item lg={4}>
-          <a>
+          <a href='twitter.com'>
             <FontAwesomeIcon icon={faTwitterSquare} style={{ fontSize: 30 }} />
           </a>
         </Grid>
         <Grid item lg={4}>
-          <a>
+          <a href='linkedin.com'>
             <FontAwesomeIcon icon={faLinkedin} style={{ fontSize: 30 }} />
           </a>
         </Grid>

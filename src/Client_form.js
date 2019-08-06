@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Navbar from "./component/navbar";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const style = {
   box: {
@@ -52,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 const domains = [
   {
-    value: "Web develpoment",
+    value: 1,
     label: "WD"
   }
 ];
@@ -63,11 +64,41 @@ const ClientForm = () => {
     name: "",
     duration: "",
     salary: "",
-    description: ""
+    description: "",
+    domains: ""
   });
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const handleSubmit = event => {
+    console.log("Name: " + values.domains);
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/client/project/",
+      data: {
+        client: 1,
+        name: values.name,
+        weeks: values.duration,
+        amount: values.salary,
+        description: values.description,
+        domain: values.domains,
+        package: 1,
+        detailsFile: null,
+        status: "Active"
+        // "client": null,
+        // "name": "",
+        // "domain": null,
+        // "package": null,
+        // "weeks": null,
+        // "description": "",
+        // "detailsFile": null,
+        // "status": null
+      }
+    });
+
+    event.preventDefault();
   };
 
   return (
@@ -163,6 +194,7 @@ const ClientForm = () => {
             variant='contained'
             color='secondary'
             className={classes.button}
+            onClick={handleSubmit}
           >
             Submit
           </Button>

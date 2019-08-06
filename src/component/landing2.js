@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Fade from "react-reveal/Fade";
+import { Link } from "react-router-dom";
 
 import landing1 from "../assets/image/landing1.png";
 import landing2 from "../assets/image/landing2.png";
@@ -28,6 +29,20 @@ const useStyles = makeStyles(theme => ({
     position: "absolute",
     bottom: "10vh",
     left: "17%"
+  },
+  button1: {
+    margin: theme.spacing(1),
+    padding: "0.7% 2%",
+    position: "absolute",
+    bottom: "3vh",
+    left: "7%"
+  },
+  button12: {
+    margin: theme.spacing(1),
+    padding: "0.7% 2.5%",
+    position: "absolute",
+    bottom: "3vh",
+    left: "17.8%"
   }
 }));
 
@@ -144,10 +159,37 @@ const Landing2 = () => {
       </Fade>
 
       <Button variant='contained' color='secondary' className={classes.button}>
-        SignUp
+        <Link
+          to='/cltsignup'
+          style={{ color: "white", textDecoration: "none" }}
+        >
+          {" "}
+          Client SignUp
+        </Link>
       </Button>
       <Button variant='contained' color='secondary' className={classes.button2}>
-        Login
+        <Link to='/login' style={{ color: "white", textDecoration: "none" }}>
+          Client Login
+        </Link>
+      </Button>
+
+      <Button variant='contained' color='secondary' className={classes.button1}>
+        <Link
+          to='/stdsignup'
+          style={{ color: "white", textDecoration: "none" }}
+        >
+          {" "}
+          Student SignUp
+        </Link>
+      </Button>
+      <Button
+        variant='contained'
+        color='secondary'
+        className={classes.button12}
+      >
+        <Link to='/login' style={{ color: "white", textDecoration: "none" }}>
+          Student Login
+        </Link>
       </Button>
     </div>
   );

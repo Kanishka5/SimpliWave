@@ -13,8 +13,8 @@ const EchOffers = props => {
   return (
     <div style={styles.wraper}>
       <p>{props.name}</p>
-      <p>X</p>
-      <p>v</p>
+      <p>{props.duration} weeks</p>
+      <p>Rs. {props.amount}</p>
     </div>
   );
 };
