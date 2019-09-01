@@ -1,0 +1,32 @@
+.Packages {
+    margin: 0 auto 70px auto;
+    padding: 5vh 10vw;
+    align-items: center;
+    justify-content: center;
+    background-color: #35288b;
+}
+
+.packageList {
+    display: flex;
+    padding: 2vh 0;
+}
+
+.PackagesHeader {
+    text-align: center;
+    color: orange;
+    font-size: x-large;
+}
+
+.PackagesHeader span {
+    color: deeppink;
+    font-size: xx-large;
+}
+
+@media (max-width: 499px) {
+    .Packages {
+        padding: 3vh 0;
+    }
+    .packageList {
+        flex-flow: column;
+    }
+}

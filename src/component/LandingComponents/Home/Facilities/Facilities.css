@@ -1,0 +1,26 @@
+.Facilities {
+    margin-bottom: 70px;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+}
+
+@media (max-width: 499px) {
+    .Facilities {
+        flex-flow: column;
+    }
+}
+
+.Image {
+    margin: auto 30px;
+    min-width: 45%;
+}
+
+.Manage {
+    width: 100%;
+    height: 70vh;
+}
+
+.List {
+    margin-left: 30px;
+}

@@ -4,6 +4,14 @@
         height: auto;
     }
 
+    #about_back{
+        position: absolute;
+        /* height: 65%; */
+        top: 43vh;
+        width: 100%;
+        left: 0;
+    }
+
     .image1 {
         display: none;
     }

@@ -14,8 +14,8 @@ class StdDashboard extends Component {
         <Navbar />
         <Sidebar />
         <Infocard />
-        <Graph />
         <Offers />
+        <Graph />
       </div>
     );
   }

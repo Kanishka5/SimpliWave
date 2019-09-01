@@ -5,25 +5,14 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
-const style = {
-  box: {
-    width: "60vw",
-    margin: "5vh 20vw",
-    background: "white",
-    borderRadius: 5,
-    overflow: "hidden",
-    boxShadow: "rgb(125, 125, 152) -6px 5px 12px 4px"
-  },
-  text: {
-    marginTop: "15vh",
-    textAlign: "center",
-    Fontsize: "1.8rem",
-    letterspacing: "0.1rem",
-    color: "#ffffff"
-  }
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
 };
-
+const host = process.env.REACT_APP_HOST;
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
@@ -54,18 +43,59 @@ const SignupClt = withRouter(({ history }) => {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
-    name: ""
+    password2: "",
+    name: "",
+    formErrors: { email: "", password: "", password2: "" },
+    emailValid: false,
+    passwordValid: false,
+    confirmValid: false,
+    formValid: false,
+    loading: false
   });
 
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
+  const style = {
+    box: {
+      width: window.innerWidth > breakpoints.tablet ? "60vw" : "90vw",
+      margin: window.innerWidth > breakpoints.tablet ? "5vh 20vw" : "5vh 5vw",
+      background: "white",
+      borderRadius: 5,
+      overflow: "hidden",
+      boxShadow: "rgb(125, 125, 152) -6px 5px 12px 4px"
+    },
+    text: {
+      marginTop: "15vh",
+      textAlign: "center",
+      Fontsize: "1.8rem",
+      letterspacing: "0.1rem",
+      color: "#ffffff"
+    },
+    errorEmail: {
+      display: values.formErrors.email == "" ? "none" : "block",
+      color: "red",
+      fontSize: "1rem",
+      paddingLeft: "1vw"
+    },
+    errorPass: {
+      display: values.formErrors.password == "" ? "none" : "block",
+      color: "red",
+      fontSize: "1rem",
+      paddingLeft: "1vw"
+    },
+    errorPass2: {
+      display: values.formErrors.password2 == "" ? "none" : "block",
+      color: "red",
+      fontSize: "1rem",
+      paddingLeft: "1vw"
+    }
   };
 
   const handleSubmit = event => {
+    setValues({ ...values, loading: true });
     const name = values.name.split(" ");
+    localStorage.setItem("type", "client");
     axios({
       method: "post",
-      url: "http://localhost:8000/client/user/",
+      url: `${host}/client/user/`,
       data: {
         first_name: name[0],
         last_name: name[1] ? name[1] : "",
@@ -73,10 +103,91 @@ const SignupClt = withRouter(({ history }) => {
         password: values.password
       }
     }).then(() => {
-      history.push("/login");
+      console.log("sign up");
+      history.push({
+        pathname: "/verify",
+        state: { email: values.email, password: values.password }
+      });
     });
+
     event.preventDefault();
   };
+
+  const validateField = (fieldName, value) => {
+    console.log("in validate");
+    let fieldValidationErrors = values.formErrors;
+    let emailValid = values.emailValid;
+    let passwordValid = values.passwordValid;
+    let confirmPassword = values.confirmValid;
+
+    switch (fieldName) {
+      case "email":
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        fieldValidationErrors.email = emailValid ? "" : "Invalid email";
+        break;
+      case "password":
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.password = passwordValid ? "" : " is too short";
+        break;
+      case "password2":
+        confirmPassword = value == values.password;
+        fieldValidationErrors.password2 = confirmPassword
+          ? ""
+          : "password donot match";
+
+      default:
+        break;
+    }
+    setValues(
+      {
+        ...values,
+        formErrors: fieldValidationErrors,
+        emailValid: emailValid,
+        passwordValid: passwordValid,
+        confirmValid: confirmPassword
+      },
+      validateForm()
+    );
+  };
+
+  const validateForm = () => {
+    setValues({
+      ...values,
+      formValid:
+        values.emailValid && values.passwordValid && values.confirmValid
+    });
+  };
+
+  const handleChange = name => event => {
+    setValues(
+      { ...values, [name]: event.target.value },
+      validateField(name, event.target.value)
+    );
+
+    console.log(values.formErrors);
+    console.log("change");
+  };
+
+  let signup = [];
+  if (values.loading) {
+    signup.push(
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Loader type='ThreeDots' color='red' height={80} width={80} />
+      </div>
+    );
+  } else {
+    signup.push(
+      <Button
+        variant='contained'
+        color='secondary'
+        className={classes.button}
+        onClick={handleSubmit}
+        type='submit'
+      >
+        Signup
+      </Button>
+    );
+  }
 
   return (
     <div>
@@ -102,6 +213,7 @@ const SignupClt = withRouter(({ history }) => {
             margin='normal'
             variant='outlined'
           />
+          <h1 style={style.errorEmail}>{values.formErrors.email}</h1>
           <TextField
             id='outlined-duration'
             label='password'
@@ -115,18 +227,26 @@ const SignupClt = withRouter(({ history }) => {
             margin='normal'
             variant='outlined'
           />
-          <Button
-            variant='contained'
-            color='secondary'
-            className={classes.button}
-            onClick={handleSubmit}
-          >
-            Signup
-          </Button>
+          <h1 style={style.errorPass}>{values.formErrors.password}</h1>
+          <TextField
+            id='outlined-duration'
+            label='password2'
+            value={values.password2}
+            onChange={handleChange("password2")}
+            type='password'
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true
+            }}
+            margin='normal'
+            variant='outlined'
+          />
+          <h1 style={style.errorPass2}>{values.formErrors.password2}</h1>
+          {signup}
         </form>
       </div>
     </div>
   );
 });
 
-export default SignupClt;
+export default withRouter(SignupClt);

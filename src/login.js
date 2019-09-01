@@ -4,12 +4,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
+};
+const host = process.env.REACT_APP_HOST;
 const style = {
   box: {
-    width: "60vw",
-    margin: "5vh 20vw",
+    width: window.innerWidth > breakpoints.tablet ? "30vw" : "80vw",
+    margin: window.innerWidth > breakpoints.tablet ? "5vh 35vw" : "5vh 10vw",
     background: "white",
     borderRadius: 5,
     overflow: "hidden",
@@ -20,7 +27,7 @@ const style = {
     textAlign: "center",
     Fontsize: "1.8rem",
     letterspacing: "0.1rem",
-    color: "#ffffff"
+    color: "black"
   }
 };
 
@@ -54,7 +61,8 @@ const Login = withRouter(({ history }) => {
   const [values, setValues] = React.useState({
     email: "",
     password: "",
-    todashboard: false
+    todashboard: false,
+    loading: false
   });
 
   const handleChange = name => event => {
@@ -62,9 +70,10 @@ const Login = withRouter(({ history }) => {
   };
 
   const handleSubmit = event => {
+    setValues({ ...values, loading: true });
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/login",
+      url: `${host}/login`,
       data: {
         username: values.email,
         password: values.password
@@ -74,9 +83,9 @@ const Login = withRouter(({ history }) => {
         console.log(response.data);
         let tokenStr = response.data.token;
         localStorage.setItem("jwttoken", tokenStr);
-        localStorage.setItem("Id", response.data.id);
+        localStorage.setItem("Id", response.data.userId);
         axios
-          .get(`http://127.0.0.1:8000/student/user/${response.data.id}`)
+          .get(`${host}/student/user/${response.data.userId}`)
           .then(() => {
             console.log("i am student");
             localStorage.setItem("type", "student");
@@ -115,6 +124,27 @@ const Login = withRouter(({ history }) => {
     event.preventDefault();
   };
 
+  let login = [];
+  if (values.loading) {
+    login.push(
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Loader type='ThreeDots' color='red' height={80} width={80} />
+      </div>
+    );
+  } else {
+    login.push(
+      <Button
+        variant='contained'
+        color='secondary'
+        type='submit'
+        className={classes.button}
+        onClick={handleSubmit}
+      >
+        Login
+      </Button>
+    );
+  }
+
   return (
     <div>
       <Navbar />
@@ -143,15 +173,40 @@ const Login = withRouter(({ history }) => {
             margin='normal'
             variant='outlined'
           />
+          {login}
+        </form>
+        <p style={{ paddingLeft: "4vw" }}>
+          Don't have an account?<a href='/stdsignup'>Signup</a>
+        </p>
+        {/* <div style={{ display: "flex" }}>
           <Button
             variant='contained'
-            color='secondary'
-            className={classes.button}
-            onClick={handleSubmit}
+            color='primary'
+            style={{ margin: "3vh 4vw", marginTop: 0 }}
           >
-            Login
+            <Link
+              to='/cltsignup'
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              {" "}
+              Client SignUp
+            </Link>
           </Button>
-        </form>
+
+          <Button
+            variant='contained'
+            color='primary'
+            style={{ margin: "3vh 0", marginTop: 0 }}
+          >
+            <Link
+              to='/stdsignup'
+              style={{ color: "white", textDecoration: "none" }}
+            >
+              {" "}
+              Student SignUp
+            </Link>
+          </Button>
+        </div> */}
       </div>
     </div>
   );

@@ -2,60 +2,94 @@ import React, { Component } from "react";
 import ChatInput from "./chatInput";
 import ChatMessage from "./chatMsg";
 import Sidebar from "./sidebar";
+import Navbar from "./navbar";
+import axios from "axios";
 
-const URL = "ws://localhost:8000/ws/chat/prj1/";
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
+};
+
+const host = process.env.REACT_APP_HOST;
+const user = JSON.parse(localStorage.getItem("userinfo"));
 
 class Chat extends Component {
   state = {
     name: "kanishkan14@gmail.com",
-    messages: []
+    messages: [],
+    projname: "Project2_0"
   };
 
-  ws = new WebSocket(URL);
+  ws = new WebSocket(`ws://${host}/ws/chat/${this.state.projname}/`);
 
   componentDidMount() {
-    this.ws.onopen = () => {
-      // on connecting, do nothing but log it to the console
-      console.log("connected");
-    };
+    const URL = `ws://${host}/ws/chat/${this.state.projname}/`;
+    axios
+      .get(
+        `${host}/employee/project-manage/?${localStorage.getItem("type")}id=${
+          user.id
+        }`
+      )
+      .then(json => {
+        console.log(json);
+        this.setState({
+          projname: json.data[0].name
+        });
+        console.log(json.data[0].name);
+      });
+    this.scrollToBottom();
+    // this.ws.onopen = () => {
+    //   console.log("connected");
+    // };
 
     this.ws.onmessage = evt => {
-      // on receiving a message, add it to the list of messages
       const message = JSON.parse(evt.data);
       this.addMessage(message);
     };
 
     this.ws.onclose = () => {
       console.log("disconnected");
-      // automatically try to reconnect on connection loss
       this.setState({
-        ws: new WebSocket(URL)
+        ws: new WebSocket(`ws://${host}/ws/chat/${this.state.projname}/`)
       });
     };
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   addMessage = message => {
     this.setState(state => ({ messages: [message, ...state.messages] }));
-    window.scrollTo(0, document.body.chats.scrollHeight);
   };
 
   submitMessage = messageString => {
-    // on submitting the ChatInput form, send the message, add it to the list and reset the input
     const message = { sender: this.state.name, message: messageString };
     this.ws.send(JSON.stringify(message));
-    // this.addMessage(message);
+  };
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
   render() {
     return (
       <div>
+        <Navbar name='Dashboard' />
         <Sidebar />
         <div className='chat' style={styles.chat}>
-          <h2>CHATS: </h2>
+          <h2
+            style={{
+              textAlign:
+                window.innerWidth > breakpoints.tablet ? "auto" : "center"
+            }}
+          >
+            CHATS:{" "}
+          </h2>
           <div className='msgWindow' style={styles.holder}>
             <div style={styles.chatList}>
-              <p style={styles.txt}>chat1</p>
-              <p style={{ textAlign: "center" }}>chat2</p>
+              <p style={styles.txt}>{this.state.projname}</p>
             </div>
             <div className='chats' style={styles.chatbox}>
               {" "}
@@ -67,6 +101,12 @@ class Chat extends Component {
                     name={message.sender}
                   />
                 ))}
+                <div
+                  style={{ float: "left", clear: "both" }}
+                  ref={el => {
+                    this.messagesEnd = el;
+                  }}
+                />
               </div>
               <ChatInput
                 ws={this.ws}
@@ -86,19 +126,22 @@ export default Chat;
 
 const styles = {
   chat: {
-    marginLeft: "14vw",
+    marginLeft: window.innerHeight > breakpoints.tablet ? "27vw" : "5vw",
     paddingTop: "5vh",
-    marginRight: "14vw",
+    marginRight: window.innerHeight > breakpoints.tablet ? "14vw" : "5vw",
     borderRadius: 5
   },
   holder: {
     background: "white",
     display: "flex",
-    height: "80vh"
+    height: "80vh",
+    boxShadow: "-3px 4px 12px 1px #7968b3"
   },
   chatList: {
     width: "16%",
-    background: "#3e419c"
+    // background: "#3e419c"
+    backgroundImage:
+      "linear-gradient(to left top, #f08d85, #f2837a, #f3796f, #f46e63, #f56358)"
   },
   chatbox: {
     padding: "0 2vw",
@@ -113,6 +156,9 @@ const styles = {
     padding: "1vh"
   },
   msg: {
-    overflowY: "scroll"
+    overflowY: "scroll",
+    margin: "2vh 0",
+    background: "#e6e6f9",
+    borderRadius: "0.5rem"
   }
 };

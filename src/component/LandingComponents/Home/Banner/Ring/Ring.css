@@ -1,0 +1,65 @@
+.Ring {
+    width: 11%;
+    position: absolute;
+    left: 50%;
+    top: 40vh;
+    z-index: 50
+}
+
+.ring5 {
+    position: absolute;
+    height: 145%;
+    width: 110%;
+    left: -43px;
+    top: -32px;
+    animation: rotation 9s infinite linear;
+}
+
+.ring4 {
+    position: absolute;
+    height: 168%;
+    left: -30px;
+    top: -50px;
+    width: 98%;
+    animation: rotation 8s infinite linear;
+}
+
+.ring3 {
+    position: absolute;
+    height: 120%;
+    width: 90%;
+    left: -21px;
+    top: -14px;
+    animation: rotation 7s infinite linear;
+}
+
+.ring2 {
+    position: absolute;
+    height: 115%;
+    width: 95%;
+    top: -10px;
+    left: -26px;
+    animation: rotation 6s infinite linear;
+}
+
+.ring1 {
+    position: absolute;
+    height: 100%;
+    width: 72%;
+    animation: rotation 5s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+@media (max-width: 499px) {
+    .Ring {
+        display: none;
+    }
+}

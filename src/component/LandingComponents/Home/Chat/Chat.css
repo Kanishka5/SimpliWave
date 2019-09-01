@@ -1,0 +1,31 @@
+.Chat {
+    display: flex;
+    margin-bottom: 70px;
+}
+
+.Chat h2 {
+    position: relative;
+    margin: auto;
+    color: #ff899f;
+}
+
+.ImageDiv {
+    position: relative;
+    width: 30vw;
+    margin: 0 auto 0 auto;
+}
+
+.ChatImage {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+@media (max-width: 499px) {
+    .Chat {
+        flex-flow: column;
+    }
+    .ImageDiv {
+        width: 80%;
+    }
+}

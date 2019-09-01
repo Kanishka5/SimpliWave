@@ -20,6 +20,8 @@ import Pusher from "pusher-js";
 import Helmet from "react-helmet";
 import Sidebar from "./sidebar";
 
+const host = process.env.REACT_APP_HOST;
+
 const plugins = [
   createCodeEditorPlugin(),
   CreateMarkdownShortcutsPlugin(),
@@ -100,14 +102,14 @@ export default class TxtEditor extends Component {
   }
 
   _notifyPusher(text) {
-    axios.post("http://localhost:8000/ide/save-txt/", { txt: text });
+    axios.post(`${host}/ide/save-txt/`, { txt: text });
   }
 
   _notifyPusherEditor(editorState) {
     const selection = editorState.getSelection();
     let text = convertToRaw(editorState.getCurrentContent());
 
-    axios.post("http://localhost:8000/ide/editor-txt/", { text, selection });
+    axios.post(`${host}/ide/editor-txt/`, { text, selection });
   }
 
   render() {

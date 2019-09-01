@@ -5,25 +5,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { StylesContext } from "@material-ui/styles/StylesProvider";
 
-const style = {
-  box: {
-    width: "60vw",
-    margin: "5vh 20vw",
-    background: "white",
-    borderRadius: 5,
-    overflow: "hidden",
-    boxShadow: "rgb(125, 125, 152) -6px 5px 12px 4px"
-  },
-  text: {
-    marginTop: "15vh",
-    textAlign: "center",
-    Fontsize: "1.8rem",
-    letterspacing: "0.1rem",
-    color: "#ffffff"
-  }
-};
-
+const host = process.env.REACT_APP_HOST;
 const useStyles = makeStyles(theme => ({
   container: {
     display: "flex",
@@ -49,23 +33,62 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const SignupClt = withRouter(({ history }) => {
+const SignupStd = withRouter(({ history }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     email: "",
     password: "",
-    name: ""
+    password2: "",
+    name: "",
+    formErrors: { email: "", password: "", password2: "" },
+    emailValid: false,
+    passwordValid: false,
+    confirmValid: false,
+    formValid: false
   });
 
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
+  const breakpoints = {
+    desktop: 1040,
+    tablet: 840,
+    mobile: 540
+  };
+
+  const style = {
+    box: {
+      width: window.innerWidth > breakpoints.tablet ? "60vw" : "90vw",
+      margin: window.innerWidth > breakpoints.tablet ? "5vh 20vw" : "5vh 5vw",
+      background: "white",
+      borderRadius: 5,
+      overflow: "hidden",
+      boxShadow: "rgb(125, 125, 152) -6px 5px 12px 4px"
+    },
+    text: {
+      marginTop: "15vh",
+      textAlign: "center",
+      Fontsize: "1.8rem",
+      letterspacing: "0.1rem",
+      color: "#ffffff"
+    },
+    errorEmail: {
+      display: values.formErrors.email == "" ? "none" : "block",
+      color: "red"
+    },
+    errorPass: {
+      display: values.formErrors.password == "" ? "none" : "block",
+      color: "red"
+    },
+    errorPass2: {
+      display: values.formErrors.password2 == "" ? "none" : "block",
+      color: "red"
+    }
   };
 
   const handleSubmit = event => {
     const name = values.name.split(" ");
+    localStorage.setItem("type", "student");
     axios({
       method: "post",
-      url: "http://localhost:8000/student/user/",
+      url: `${host}/client/user/`,
       data: {
         first_name: name[0],
         last_name: name[1] ? name[1] : "",
@@ -73,9 +96,66 @@ const SignupClt = withRouter(({ history }) => {
         password: values.password
       }
     }).then(() => {
+      console.log("sign up");
       history.push("/login");
     });
+
     event.preventDefault();
+  };
+
+  const validateField = (fieldName, value) => {
+    console.log("in validate");
+    let fieldValidationErrors = values.formErrors;
+    let emailValid = values.emailValid;
+    let passwordValid = values.passwordValid;
+    let confirmPassword = values.confirmValid;
+
+    switch (fieldName) {
+      case "email":
+        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        fieldValidationErrors.email = emailValid ? "" : "Invalid email";
+        break;
+      case "password":
+        passwordValid = value.length >= 6;
+        fieldValidationErrors.password = passwordValid ? "" : " is too short";
+        break;
+      case "password2":
+        confirmPassword = value == values.password;
+        fieldValidationErrors.password2 = confirmPassword
+          ? ""
+          : "password donot match";
+
+      default:
+        break;
+    }
+    setValues(
+      {
+        ...values,
+        formErrors: fieldValidationErrors,
+        emailValid: emailValid,
+        passwordValid: passwordValid,
+        confirmValid: confirmPassword
+      },
+      validateForm()
+    );
+  };
+
+  const validateForm = () => {
+    setValues({
+      ...values,
+      formValid:
+        values.emailValid && values.passwordValid && values.confirmValid
+    });
+  };
+
+  const handleChange = name => event => {
+    setValues(
+      { ...values, [name]: event.target.value },
+      validateField(name, event.target.value)
+    );
+
+    console.log(values.formErrors);
+    console.log("change");
   };
 
   return (
@@ -102,6 +182,7 @@ const SignupClt = withRouter(({ history }) => {
             margin='normal'
             variant='outlined'
           />
+          <h1 style={style.errorEmail}>{values.formErrors.email}</h1>
           <TextField
             id='outlined-duration'
             label='password'
@@ -115,9 +196,25 @@ const SignupClt = withRouter(({ history }) => {
             margin='normal'
             variant='outlined'
           />
+          <h1 style={style.errorPass}>{values.formErrors.password}</h1>
+          <TextField
+            id='outlined-duration'
+            label='password2'
+            value={values.password2}
+            onChange={handleChange("password2")}
+            type='password'
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true
+            }}
+            margin='normal'
+            variant='outlined'
+          />
+          <h1 style={style.errorPass2}>{values.formErrors.password2}</h1>
           <Button
             variant='contained'
             color='secondary'
+            type='submit'
             className={classes.button}
             onClick={handleSubmit}
           >
@@ -129,4 +226,4 @@ const SignupClt = withRouter(({ history }) => {
   );
 });
 
-export default SignupClt;
+export default withRouter(SignupStd);

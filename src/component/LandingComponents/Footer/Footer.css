@@ -1,0 +1,51 @@
+.Footer01 {
+    background-color: #3b3b3b;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Name {
+    width: 30%;
+    padding: 50px;
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: xx-large;
+}
+
+.Name p {
+    color: white;
+    font-size: small;
+}
+
+.Table {
+    width: 70%;
+    padding: 30px;
+}
+
+@media (max-width: 499px) {
+    .Footer01 {
+        flex-flow: column;
+    }
+    .Name {
+        width: 300px;
+        padding: 10px 20px;
+    }
+    .Table {
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+.Footer02 {
+    height: 10vh;
+    background-color: #494949;
+}
+
+.Footer02 div {
+    font-size: medium;
+    color: white;
+    padding: 1rem 2rem;
+    position: absolute;
+}

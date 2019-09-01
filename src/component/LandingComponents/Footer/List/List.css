@@ -1,0 +1,27 @@
+.List {
+    display: flex;
+    margin: auto;
+    width: 90%;
+    padding: 20px 20px;
+}
+
+.List table {
+    color: #a8a8a8;
+    margin: auto;
+}
+
+.List td {
+    position: relative;
+    left: 0;
+    color: #9d6dff;
+    height: 30px;
+}
+
+.List tr {
+    height: 30px;
+    cursor: pointer;
+}
+
+.List tr:hover {
+    color: #2c96c9;
+}

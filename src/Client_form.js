@@ -7,11 +7,18 @@ import Button from "@material-ui/core/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { withRouter } from "react-router-dom";
 
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
+};
+const host = process.env.REACT_APP_HOST;
 const style = {
   box: {
-    width: "60vw",
-    margin: "5vh 20vw",
+    width: window.innerWidth > breakpoints.tablet ? "60vw" : "80vw",
+    margin: window.innerWidth > breakpoints.tablet ? "5vh 20vw" : "5vh 10vw",
     background: "white",
     borderRadius: 5,
     overflow: "hidden",
@@ -20,9 +27,9 @@ const style = {
   text: {
     marginTop: "15vh",
     textAlign: "center",
-    Fontsize: "1.8rem",
+    fontSize: "1.5em",
     letterspacing: "0.1rem",
-    color: "#ffffff"
+    color: "black"
   }
 };
 
@@ -58,7 +65,7 @@ const domains = [
   }
 ];
 
-const ClientForm = () => {
+const ClientForm = withRouter(({ history }) => {
   const classes = useStyles();
   const [values, setValues] = React.useState({
     name: "",
@@ -73,37 +80,33 @@ const ClientForm = () => {
   };
 
   const handleSubmit = event => {
-    console.log("Name: " + values.domains);
+    const user = JSON.parse(localStorage.getItem("userinfo"));
+    console.log(user);
+    const token = localStorage.getItem("jwttoken");
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/client/project/",
+      url: `${host}/client/project/`,
       data: {
-        client: 1,
+        client: user.id,
         name: values.name,
-        weeks: values.duration,
-        amount: values.salary,
-        description: values.description,
-        domain: values.domains,
+        domain: 1,
         package: 1,
-        detailsFile: null,
-        status: "Active"
-        // "client": null,
-        // "name": "",
-        // "domain": null,
-        // "package": null,
-        // "weeks": null,
-        // "description": "",
-        // "detailsFile": null,
-        // "status": null
+        weeks: values.duration,
+        description: values.description,
+        detailsFile: null
+      },
+      headers: {
+        Authorization: `token ${token}`
       }
     });
+    history.push("/cltdashboard");
 
     event.preventDefault();
   };
 
   return (
     <div>
-      <Navbar />
+      <Navbar name='Dashboard' />
       <h1 style={style.text}>New Project</h1>
       <div style={style.box}>
         <form className={classes.container} noValidate autoComplete='off'>
@@ -121,19 +124,6 @@ const ClientForm = () => {
             label='Duration'
             value={values.duration}
             onChange={handleChange("duration")}
-            type='number'
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true
-            }}
-            margin='normal'
-            variant='outlined'
-          />
-          <TextField
-            id='outlined-salary'
-            label='Salary'
-            value={values.salary}
-            onChange={handleChange("salary")}
             type='number'
             className={classes.textField}
             InputLabelProps={{
@@ -202,6 +192,6 @@ const ClientForm = () => {
       </div>
     </div>
   );
-};
+});
 
 export default ClientForm;

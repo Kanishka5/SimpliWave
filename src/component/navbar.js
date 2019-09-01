@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import Logo from "../assets/image/logo.png";
 import Axios from "axios";
 import { withRouter } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
+};
 
 class Navbar extends Component {
   constructor(props) {
@@ -16,6 +23,9 @@ class Navbar extends Component {
   }
 
   componentDidMount() {
+    const host = process.env.REACT_APP_HOST;
+    console.log(host);
+
     document.addEventListener("scroll", () => {
       const isTop = window.scrollY < 100;
       if (isTop !== this.state.isTop) {
@@ -23,9 +33,9 @@ class Navbar extends Component {
       }
     });
     Axios.get(
-      `http://localhost:8000/${localStorage.getItem(
-        "type"
-      )}/user/${localStorage.getItem("Id")}`
+      `${host}/${localStorage.getItem("type")}/user/${localStorage.getItem(
+        "Id"
+      )}`
     ).then(json => {
       console.log(json.data.first_name);
       this.setState({
@@ -44,13 +54,12 @@ class Navbar extends Component {
       else this.props.history.push("/cltdashboard");
     };
     const logout = () => {
-      Axios.post("http://localhost:8000/logout");
-      localStorage.setItem("jwttoken", "");
-      localStorage.setItem("userinfo", "");
-      this.setState({ loginedIn: "" });
+      Axios.post("${host}/logout");
+      localStorage.clear();
+      this.props.history.push("/");
     };
     let user = [];
-    if (!this.state.loginedIn) {
+    if (!localStorage.getItem("Id")) {
       user.push(
         <div>
           <a href='/login'>Login</a>
@@ -59,25 +68,45 @@ class Navbar extends Component {
     } else {
       user.push(
         <div style={styles.userIn}>
-          <h1
+          <p
             style={{ paddingRight: "1rem", color: "black" }}
             onClick={dashboard}
           >
             {this.state.name}
-          </h1>
-          <button onClick={logout}>logout</button>
+          </p>
+          <Button
+            variant='contained'
+            color='secondary'
+            onClick={logout}
+            type='submit'
+            style={{
+              padding:
+                window.innerWidth > breakpoints.tablet ? "auto" : "0.5vh 2vw"
+            }}
+          >
+            Logout
+          </Button>
         </div>
       );
     }
     return (
       <div style={this.state.isTop ? styles.navbarTop : styles.navbar}>
-        <a href='/'>
+        <a href='/' style={{ width: "5vw" }}>
           <img
             src={Logo}
             alt='logo'
             style={{ height: "100%", marginLeft: "1%" }}
           />
         </a>
+        <h2
+          onClick={dashboard}
+          style={{
+            fontSize: window.innerWidth > breakpoints.tablet ? "auto" : "1em",
+            marginLeft: window.innerWidth > breakpoints.tablet ? 0 : "7vw"
+          }}
+        >
+          {this.props.name}
+        </h2>
         <div style={styles.user}>{user}</div>
         <div />
       </div>
@@ -93,8 +122,8 @@ const styles = {
     height: "6vh",
     position: "fixed",
     top: 0,
-    backgroundColor: "rgba(246, 246, 249)",
-    zIndex: 5,
+    backgroundColor: "rgb(246, 246, 249)",
+    zIndex: 55,
     boxShadow: "rgb(139, 139, 196) 1px 2px 8px",
     display: "flex",
     flexDirection: "row"
@@ -104,8 +133,8 @@ const styles = {
     height: "6vh",
     position: "fixed",
     top: 0,
-    backgroundColor: "rgba(246, 246, 249,0)",
-    zIndex: 5,
+    backgroundColor: "rgb(246, 246, 249)",
+    zIndex: 55,
     display: "flex",
     flexDirection: "row"
   },

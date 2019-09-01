@@ -10,7 +10,7 @@ class ClientDashboard extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar name='Dashboard' />
         <Sidebar />
         <Infocard />
         <Graph />

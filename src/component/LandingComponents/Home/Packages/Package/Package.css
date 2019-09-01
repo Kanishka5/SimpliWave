@@ -1,0 +1,49 @@
+.PackageContainer {
+    margin: auto;
+}
+
+.Package {
+    position: relative;
+    width: 20rem;
+    height: 60vh;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 3px solid rgba(105, 127, 191, 0.53);
+    box-shadow: 8px 8px 3px #1e2440;
+}
+
+.PackageHeader h2 {
+    text-align: center;
+    font-family: "Arial Rounded MT Bold";
+}
+
+.PackagePrice {
+    display: flex;
+    padding: 0 10px;
+}
+
+.PackagePrice h2 {
+    color: #2c96c9;
+    font-family: "Arial Rounded MT Bold";
+}
+
+.PackagePrice p {
+    color: #515151;
+    font-size: small;
+    margin: auto 5px;
+}
+
+.PackageDescription {
+    color: black;
+    height: 45%;
+    margin: 0 10px;
+    font-family: "Arial Rounded MT Bold";
+}
+
+@media (min-width: 500px) {
+    .Package {
+        width: 20vw;
+        height: 60vh;
+    }
+}

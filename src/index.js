@@ -14,8 +14,16 @@ import SignupStd from "./signupStd";
 import Login from "./login";
 import Chat from "./component/chat";
 import SignupClt from "./signupClt";
+import Verify from "./component/verify";
+import ProjectList from "./component/projectApply";
+import ProjectPosted from "./component/prjPosted";
+import ProjectProg from "./component/prjctProg";
+require("dotenv").config();
 
 const Path = () => {
+  //   window.onbeforeunload = function() {
+  //     localStorage.clear();
+  //   };
   return (
     <Router>
       <Switch>
@@ -31,6 +39,10 @@ const Path = () => {
         <Route path='/cltsignup' component={SignupClt} />
         <Route path='/login' component={Login} />
         <Route path='/chat' component={Chat} />
+        <Route path='/verify' component={Verify} />
+        <Route path='/apply' component={ProjectList} />
+        <Route path='/prjctposted' component={ProjectPosted} />
+        <Route path='/prjctProg' component={ProjectProg} />
       </Switch>
     </Router>
   );

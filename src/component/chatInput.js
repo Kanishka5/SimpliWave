@@ -24,7 +24,14 @@ class ChatInput extends Component {
           placeholder={"Enter message..."}
           value={this.state.message}
           onChange={e => this.setState({ message: e.target.value })}
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            background: "#e6e6f9",
+            marginBottom: "1rem",
+            borderRadius: "0.5rem",
+            border: 0,
+            padding: "1rem 0"
+          }}
         />
       </form>
     );

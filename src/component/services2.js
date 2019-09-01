@@ -11,6 +11,12 @@ import design2 from "../assets/image/design2.png";
 import app1 from "../assets/image/app1.png";
 import app2 from "../assets/image/app2.png";
 
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
+};
+
 const useStyles = makeStyles(theme => ({
   button: {
     margin: theme.spacing(1),
@@ -30,51 +36,62 @@ const style = {
   },
   header: {
     color: "rgba(223, 18, 25, 0.12)",
-    fontSize: "5rem",
+    fontSize: "4.5em",
     textAlign: "center"
   },
   header2: {
-    fontSize: "5.1rem",
+    fontSize: "3.5em",
+    width: window.innerWidth > breakpoints.tablet ? "auto" : "100%",
     position: "absolute",
-    top: "12vh",
-    left: "37%",
+    top: window.innerWidth > breakpoints.tablet ? "12vh" : "15vh",
+    left: window.innerWidth > breakpoints.tablet ? "37%" : "0",
     color: "#553C8B",
-    letterSpacing: 2
+    letterSpacing: 2,
+    textAlign: "center"
   },
   srvcCont: {
-    margin: "20vh 30vh 15% 15%",
+    margin:
+      window.innerWidth > breakpoints.tablet
+        ? "20vh 30vh 15% 15%"
+        : "15vh auto auto",
     position: "relative",
-    display: "flex"
+    display: "flex",
+    flexDirection: window.innerWidth > breakpoints.tablet ? "row" : "column"
   },
   appimg1: {
+    display: window.innerWidth > breakpoints.tablet ? "block" : "none",
     width: "41%",
     boxShadow: "-12px 12px 2px #2B3A8E"
   },
   appimg2: {
-    width: "40%",
-    position: " absolute",
+    width: window.innerWidth > breakpoints.tablet ? "40%" : "80%",
+    position: window.innerWidth > breakpoints.tablet ? "absolute" : "static",
+    marginLeft: window.innerWidth > breakpoints.tablet ? 0 : "10%",
     left: "14%",
     top: "19vh",
     boxShadow: "-12px 12px 2px #DF1219"
   },
   designimg1: {
+    display: window.innerWidth > breakpoints.tablet ? "block" : "none",
     width: "41%",
     marginLeft: "10%",
     boxShadow: "-12px 12px 2px #2B3A8E"
   },
   designimg2: {
-    width: "39%",
-    position: " absolute",
+    width: window.innerWidth > breakpoints.tablet ? "39%" : "80%",
+    marginLeft: window.innerWidth > breakpoints.tablet ? 0 : "10%",
+    position: window.innerWidth > breakpoints.tablet ? "absolute" : "Static",
     right: "25%",
     top: "13vh",
     boxShadow: "-12px 12px 2px #DF1219"
   },
   webimg1: {
-    width: "41%",
+    width: window.innerWidth > breakpoints.tablet ? "41%" : "80%",
     marginLeft: "10%",
     boxShadow: "-12px 12px 2px #2B3A8E"
   },
   webimg2: {
+    display: window.innerWidth > breakpoints.tablet ? "block" : "none",
     width: "27%",
     position: " absolute",
     left: "2%",
@@ -85,15 +102,16 @@ const style = {
     marginLeft: "5vw"
   },
   webtxt2: {
-    marginLeft: "1vw"
+    marginLeft: window.innerWidth > breakpoints.tablet ? "1vw" : "5vw"
   },
   txth1: {
     margin: 0,
-    fontSize: "2.5rem",
+    marginTop: window.innerWidth > breakpoints.tablet ? 0 : "6vh",
+    fontSize: "2em",
     color: "#DF1219"
   },
   txtp: {
-    fontSize: "1.5rem",
+    fontSize: "1.5em",
     color: "#553C8B"
   }
 };
@@ -134,7 +152,7 @@ const Services2 = () => {
       {/* Design */}
       <div style={style.srvcCont}>
         <Slide left>
-          <div style={style.webtxt2}>
+          <div style={{ ...style.webtxt2, order: 2 }}>
             <h1 style={style.txth1}>Design</h1>
             <p style={style.txtp}>
               Logo, User Interface, Product, Fashion - We have got it all

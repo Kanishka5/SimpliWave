@@ -1,0 +1,54 @@
+.Group {
+    position: relative;
+    width: 25vw;
+    height: 50vh;
+    margin: auto;
+    animation: upDownMove 3s ease-in-out infinite;
+}
+
+.Student {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.Client {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+}
+
+.Employee {
+    position: absolute;
+    top: 60%;
+    left: 20%;
+}
+
+.Direction {
+    position: absolute;
+    width: 12vw;
+    top: 11vh;
+    left: 4vw;
+    animation: rotate 15s infinite linear;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+@keyframes upDownMove {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

@@ -2,6 +2,12 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import Fade from "react-reveal/Fade";
 
+const breakpoints = {
+  desktop: 1040,
+  tablet: 840,
+  mobile: 540
+};
+
 const data = {
   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
   datasets: [
@@ -33,12 +39,14 @@ const Graph = () => {
   return (
     <div
       style={{
+        position: "relative",
         marginTop: "10vh",
-        width: "72vw",
+        width: window.innerWidth > breakpoints.tablet ? "72vw" : "80vw",
         height: "57vh",
-        marginLeft: "15vw",
+        marginLeft: window.innerWidth > breakpoints.tablet ? "15vw" : "10vw",
         borderRadius: 7,
-        background: "#3e419c"
+        background:
+          "linear-gradient(to right, rgb(152, 129, 245), rgb(218, 120, 214), rgb(252, 122, 177), rgb(255, 138, 146), rgb(255, 161, 127)) rgb(62, 65, 156)"
       }}
     >
       <h1
@@ -46,7 +54,12 @@ const Graph = () => {
           paddingLeft: 10,
           marginBottom: "5vh",
           position: "absolute",
-          bottom: 25
+          bottom:
+            window.innerWidth > breakpoints.tablet
+              ? localStorage.getItem("type") === "client"
+                ? 25
+                : "-29vh"
+              : "-3vh"
         }}
       >
         Ongoing projects
@@ -55,10 +68,11 @@ const Graph = () => {
         <div
           style={{
             height: "50vh",
-            width: "70vw",
-            marginLeft: "1vw",
+            width: window.innerWidth > breakpoints.tablet ? "70vw" : "75vw",
+            marginLeft:
+              window.innerWidth > breakpoints.tablet ? "1vw" : "2.5vw",
             position: "absolute",
-            top: "36vh",
+            top: "-2vh",
             backgroundColor: "rgb(246, 246, 249)",
             boxShadow: "-1px 5px 9px 1px #3e419c59"
           }}

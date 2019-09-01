@@ -1,6 +1,6 @@
 .sidebar {
     width: 12vw;
-    background-color: #3e419c;
+    background-image: linear-gradient(to right bottom, #9881f5, #8b77d9, #7f6dbe, #7263a4, #65598a);
     height: 100vh;
     position: fixed;
     left: 0;
@@ -8,7 +8,7 @@
 }
 
 .prjct{
-    height: 11vh;
+    height: 13vh;
     transition: height 0.3s linear ;
 }
 
