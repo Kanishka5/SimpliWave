@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { StylesContext } from "@material-ui/styles/StylesProvider";
+import Loader from "react-loader-spinner";
 
 const host = process.env.REACT_APP_HOST;
 const useStyles = makeStyles(theme => ({
@@ -84,6 +85,7 @@ const SignupStd = withRouter(({ history }) => {
   };
 
   const handleSubmit = event => {
+    setValues({ ...values, loading: true });
     const name = values.name.split(" ");
     localStorage.setItem("type", "student");
     axios({
@@ -97,7 +99,10 @@ const SignupStd = withRouter(({ history }) => {
       }
     }).then(() => {
       console.log("sign up");
-      history.push("/login");
+      history.push({
+        pathname: "/verify",
+        state: { email: values.email, password: values.password }
+      });
     });
 
     event.preventDefault();
@@ -158,6 +163,27 @@ const SignupStd = withRouter(({ history }) => {
     console.log("change");
   };
 
+  let signup = [];
+  if (values.loading) {
+    signup.push(
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Loader type='ThreeDots' color='red' height={80} width={80} />
+      </div>
+    );
+  } else {
+    signup.push(
+      <Button
+        variant='contained'
+        color='secondary'
+        className={classes.button}
+        onClick={handleSubmit}
+        type='submit'
+      >
+        Signup
+      </Button>
+    );
+  }
+
   return (
     <div>
       <Navbar />
@@ -211,15 +237,7 @@ const SignupStd = withRouter(({ history }) => {
             variant='outlined'
           />
           <h1 style={style.errorPass2}>{values.formErrors.password2}</h1>
-          <Button
-            variant='contained'
-            color='secondary'
-            type='submit'
-            className={classes.button}
-            onClick={handleSubmit}
-          >
-            Signup
-          </Button>
+          {signup}
         </form>
       </div>
     </div>

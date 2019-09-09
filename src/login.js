@@ -73,7 +73,7 @@ const Login = withRouter(({ history }) => {
     setValues({ ...values, loading: true });
     axios({
       method: "post",
-      url: `${host}/login`,
+      url: `${host}/login/`,
       data: {
         username: values.email,
         password: values.password
